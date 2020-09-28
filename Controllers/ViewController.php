@@ -5,6 +5,7 @@ namespace Controllers;
 use Core\Application;
 use Core\Controller;
 use Core\Request;
+use Controllers\TasklistController;
 
 class ViewController extends Controller
 {
@@ -14,18 +15,8 @@ class ViewController extends Controller
      */
     public function index()
     {
-        return $this->render("index");
-    }
+        $tasklists = TasklistController::index();
 
-    /**
-     * Returns the index view with post data.
-     * 
-     * @param Request $request
-     */
-    public function postIndex(Request $request)
-    {
-        $params = $request->getParams();
-
-        return $this->render("index", $params);
+        return $this->render("index", $tasklists);
     }
 }
