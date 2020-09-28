@@ -70,7 +70,7 @@ class TasklistController extends Controller
         $params = $request->getParams();
         $id = $params["id"];
 
-        Database::delete("tasks", "id", $id);
+        Database::delete("tasklists", "id", $id);
 
         header("Location: /");
         die();

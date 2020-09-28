@@ -17,7 +17,6 @@ $app = new Application(dirname(__DIR__));
  * Assign routes to the application.
  * 
  */
-
 $app->router->get("/", [ViewController::class, "index"]);
 
 $app->router->post("/task-store", [TaskController::class, "store"]);
