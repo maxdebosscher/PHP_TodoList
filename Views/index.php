@@ -5,6 +5,15 @@
         <div class="card col-md-3 col-xl-2 px-0 mx-2">
             <div class="card-header d-flex">
                 <span class="py-1 mr-auto"><?php print($tasklist->getTitle()); ?></span>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                        Sort
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Duration</a>
+                        <a class="dropdown-item" href="#">Status</a>
+                    </div>
+                </div>
                 <button class="btn btn-sm btn-primary mx-1" data-toggle="modal" data-target="#editListModal<?php print($tasklist->getId()); ?>">Edit</button>
                 <button class="btn btn-sm btn-danger mx-1" data-toggle="modal" data-target="#deleteListModal<?php print($tasklist->getId()); ?>">Delete</button>
             </div>
@@ -24,11 +33,11 @@
                         <div class="modal-body">
                             <form action="<?php echo htmlspecialchars("/tasklist-update"); ?>" method="POST">
                                 <input type="hidden" name="id" value="<?php print($tasklist->getId()); ?>">
-                                <div class="row pr-3">
+                                <div class="row pr-3 mb-2">
                                     <label class="col-2 py-1" for="title">Title:</label>
                                     <input class="col-10 form-control" type="text" name="title" value="<?php print($tasklist->getTitle()); ?>">
                                 </div>
-                                <input class="mt-2 btn btn-sm btn-success" type="submit" value="Submit">
+                                <input class="btn btn-sm btn-success" type="submit" value="Submit">
                             </form>
                         </div>
 
@@ -78,19 +87,132 @@
                         <li class="list-group-item border-0 p-0">
                             <div class="d-flex">
                                 <span class="mr-auto"><?php print($task->getDescription()); ?></span>
-                                <button class="btn btn-sm btn-primary mx-1">Edit</button>
-                                <button class="btn btn-sm btn-danger mx-1">Delete</button>
+                                <button class="btn btn-sm btn-primary mx-1" data-toggle="modal" data-target="#editTaskModal<?php print($task->getId()); ?>">Edit</button>
+                                <button class="btn btn-sm btn-danger mx-1" data-toggle="modal" data-target="#deleteTaskModal<?php print($task->getId()); ?>">Delete</button>
                             </div>
                             <div><?php print($task->getStatus()); ?></div>
                             <span class="text-secondary"><?php print($task->getDuration()); ?> min</span>
                             <hr>
                         </li>
+
+                        <!-- Edit Task Modal -->
+                        <div class="modal" id="editTaskModal<?php print($task->getId()); ?>">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit Task</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <form action="<?php echo htmlspecialchars("/task-update"); ?>" method="POST">
+                                            <input type="hidden" name="id" value="<?php print($task->getId()); ?>">
+                                            <input type="hidden" name="tasklistId" value="<?php print($task->getTasklistId()); ?>">
+                                            <div class="row pr-3 mb-2">
+                                                <label class="col-3 py-1" for="title">Description:</label>
+                                                <input class="col-9 form-control" type="text" name="description" value="<?php print($task->getDescription()); ?>">
+                                            </div>
+                                            
+                                            <div class="row pr-3 mb-2">
+                                                <label class="col-3 py-1" for="title">Duration:</label>
+                                                <input class="col-9 form-control" type="text" name="duration" value="<?php print($task->getDuration()); ?>">
+                                            </div>
+                                            <div class="row pr-3 mb-2">
+                                                <label class="col-3 py-1" for="title">Status:</label>
+                                                <input class="col-9 form-control" type="text" name="status" value="<?php print($task->getStatus()); ?>">
+                                            </div>
+                                            <input class="btn btn-sm btn-success" type="submit" value="Submit">
+                                        </form>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delete Task Modal -->
+                        <div class="modal" id="deleteTaskModal<?php print($task->getId()); ?>">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete Task</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <span>Are you sure?</span>
+                                        <form action="<?php echo htmlspecialchars("/task-destroy"); ?>" method="POST">
+                                            <input type="hidden" name="id" value="<?php print($task->getId()); ?>">
+                                            <input class="mt-2 btn btn-sm btn-danger" type="submit" value="Delete">
+                                        </form>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
                     <?php } ?>
 
                     <!-- New Task -->
                     <li class="list-group-item border-0 p-0">
-                        <button class="btn btn-sm btn-success">New Task</button>
+                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newTaskModal<?php print($tasklist->getId()); ?>">New Task</button>
                     </li>
+
+                    <!-- New Task Modal -->
+                    <div class="modal" id="newTaskModal<?php print($tasklist->getId()); ?>">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">New Task</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form action="<?php echo htmlspecialchars("/task-store"); ?>" method="POST">
+                                        <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
+                                        <div class="row pr-3 mb-2">
+                                            <label class="col-3 py-1" for="title">Description:</label>
+                                            <input class="col-9 form-control" type="text" name="description">
+                                        </div>
+                                        
+                                        <div class="row pr-3 mb-2">
+                                            <label class="col-3 py-1" for="title">Duration:</label>
+                                            <input class="col-9 form-control" type="text" name="duration">
+                                        </div>
+                                        <div class="row pr-3 mb-2">
+                                            <label class="col-3 py-1" for="title">Status:</label>
+                                            <input class="col-9 form-control" type="text" name="status">
+                                        </div>
+                                        <input class="btn btn-sm btn-success" type="submit" value="Submit">
+                                    </form>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </ul>
             </div>
