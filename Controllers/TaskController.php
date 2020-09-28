@@ -2,10 +2,12 @@
 
 namespace Controllers;
 
+use Core\Request;
+use Core\Controller;
 use Core\Database;
 use Models\Task;
 
-class TaskController
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +38,7 @@ class TaskController
 
         Database::insert("tasks", $columns, $values);
 
-        header("Location: ../Public/index.php");
+        header("Location: /");
         die();
     }
 
@@ -54,7 +56,7 @@ class TaskController
 
         Database::update("tasks", $columns, $values, "id", $id);
 
-        header("Location: ../Public/index.php");
+        header("Location: /");
         die();
     }
 
@@ -69,7 +71,7 @@ class TaskController
 
         Database::delete("tasks", "id", $id);
 
-        header("Location: ../Public/index.php");
+        header("Location: /");
         die();
     }
 }

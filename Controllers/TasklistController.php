@@ -2,10 +2,12 @@
 
 namespace Controllers;
 
+use Core\Request;
+use Core\Controller;
 use Core\Database;
 use Models\Tasklist;
 
-class TasklistController
+class TasklistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +38,7 @@ class TasklistController
         
         Database::insert("tasklists", $columns, $values);
 
-        header("Location: ../Public/index.php");
+        header("Location: /");
         die();
     }
 
@@ -54,7 +56,7 @@ class TasklistController
 
         Database::update("tasklists", $columns, $values, "id", $id);
 
-        header("Location: ../Public/index.php");
+        header("Location: /");
         die();
     }
 
@@ -70,7 +72,7 @@ class TasklistController
 
         Database::delete("tasks", "id", $id);
 
-        header("Location: ../Public/index.php");
+        header("Location: /");
         die();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-use Core\Application;
 use Core\Controller;
 use Core\Request;
 use Controllers\TasklistController;
@@ -15,8 +14,8 @@ class ViewController extends Controller
      */
     public function index()
     {
-        $tasklists = TasklistController::index();
+        $params = TasklistController::index();
 
-        return $this->render("index", $tasklists);
+        return $this->render("index", $params);
     }
 }

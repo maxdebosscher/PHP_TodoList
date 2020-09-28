@@ -20,9 +20,9 @@ $app = new Application(dirname(__DIR__));
 
 $app->router->get("/", [ViewController::class, "index"]);
 
-$app->router->post("/task-store", [TasklistController::class, "store"]);
-$app->router->post("/task-update", [TasklistController::class, "update"]);
-$app->router->post("/task-destroy", [TasklistController::class, "destroy"]);
+$app->router->post("/task-store", [TaskController::class, "store"]);
+$app->router->post("/task-update", [TaskController::class, "update"]);
+$app->router->post("/task-destroy", [TaskController::class, "destroy"]);
 
 $app->router->post("/tasklist-store", [TasklistController::class, "store"]);
 $app->router->post("/tasklist-update", [TasklistController::class, "update"]);
