@@ -38,15 +38,25 @@ class Tasklist
      */
     public function getTasks($tasklistId)
     {
-        $tasksArr = Database::find("tasks", "tasklistId", $this->getId());
+        $tasksArr = Database::find("tasks", ["tasklistId"], [$this->getId()]);
 
         if (isset($_GET["tasklistId"])) {
             if ($_GET["tasklistId"] === $tasklistId) {
+
+                // If using sort:
                 if (isset($_GET["sort"])) {
                     if ($_GET["sort"] === "asc") {
                         $tasksArr = Database::findSorted("tasks", "tasklistId", $this->getId(), "duration");
                     } else if ($_GET["sort"] === "desc") {
                         $tasksArr = Database::findSortedDesc("tasks", "tasklistId", $this->getId(), "duration");
+                    }
+                }
+
+                // If using filter:
+                if (isset($_GET["filter"])) {
+                    $status = $_GET["filter"];
+                    if ($status != "None") {
+                        $tasksArr = Database::find("tasks", ["tasklistId", "status"], [$this->getId(), $status]);
                     }
                 }
             }

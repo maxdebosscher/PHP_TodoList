@@ -19,7 +19,7 @@ class Database
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         );
 
-        return new PDO($dsn,'root','', $opt);
+        return new PDO($dsn, 'root', '', $opt);
     }
 
     /**
@@ -44,15 +44,22 @@ class Database
      * Returns a single row from a table.
      * 
      * @param string $table
-     * @param string $column
-     * @param mixed $key
+     * @param array $columns
+     * @param array $keys
      * 
      * @return object
      */
-    public static function find($table, $column, $key)
+    public static function find($table, $columns, $keys)
     {
+        foreach ($columns as $columnKey => $column) {
+            $query = "SELECT * FROM $table WHERE ".$columns[$columnKey]."='".$keys[$columnKey]."'";
+            if ($columnKey > 0) {
+                $query = $query." AND ".$column."='" .$keys[$columnKey]. "'";
+            }
+        }
+
         $conn = self::connect();
-        $stmt = $conn->prepare("SELECT * FROM $table WHERE $column=$key");
+        $stmt = $conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll();
         $conn = null;
@@ -73,13 +80,13 @@ class Database
     {
         $newColumns = "";
         foreach($columns as $column) {
-            $newColumns = $newColumns . "$column, ";
+            $newColumns = $newColumns."$column, ";
         }
         $newColumns = substr($newColumns, 0, -2);
 
         $newValues = "";
         foreach($values as $value) {
-            $newValues = $newValues . "'$value', ";
+            $newValues = $newValues."'$value', ";
         }
         $newValues = substr($newValues, 0, -2);
 
@@ -102,7 +109,7 @@ class Database
     {
         $newValues = "";
         foreach($columns as $newKey => $newColumn) {
-            $newValues = $newValues . "$newColumn='" . $values[$newKey] . "', ";
+            $newValues = $newValues."$newColumn='".$values[$newKey]."', ";
         }
         $newValues = substr($newValues, 0, -2);
 

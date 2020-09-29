@@ -6,16 +6,57 @@
             <div class="card-header d-flex">
                 <span class="py-1 mr-auto"><?php print($tasklist->getTitle()); ?></span>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-primary" data-toggle="dropdown">Menu</button>
-                    <div class="dropdown-menu">
-                    <form class="dropdown-item" action="" method="GET">
-                        <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
-                        <input type="hidden" name="sort" value="<?php print($params[1]); ?>">
-                        <input type="submit" value="Sort Duration">
-                    </form>
-                        
-                        <a class="dropdown-item" href="#">Fliter Status</a>
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#listMenuModal<?php print($tasklist->getId()); ?>">Menu</button>
+
+                    <!-- Menu Modal -->
+                    <div class="modal" id="listMenuModal<?php print($tasklist->getId()); ?>">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Tasklist Menu</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <form class="row mb-2 px-3" action="" method="GET">
+                                        <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
+                                        <input type="hidden" name="sort" value="<?php print($params[1]); ?>">
+                                        <input class="btn btn-primary" type="submit" value="Sort by Duration">
+                                    </form>
+
+                                    <form class="row mb-2 px-3" action="" method="GET">
+                                        <label class="col-2 px-0 py-1" for="filter">Filter by:</label>
+                                        <select class="form-control col-8" name="filter">
+                                            <option>None</option>
+                                            
+                                            <?php foreach ($params[2] as $statusKey => $status) { ?>
+                                                <option><?php print($status["name"]); ?></option>
+                                            <?php } ?>
+
+                                        </select>
+                                        <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
+                                        <input class="btn btn-success col-2" type="submit" value="Submit">
+                                    </form>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="dropdown-menu">
+                        
+                            
+                        
+                    </div>
+
                 </div>
                 <button class="btn btn-sm btn-primary mx-1" data-toggle="modal" data-target="#editListModal<?php print($tasklist->getId()); ?>">Edit</button>
                 <button class="btn btn-sm btn-danger mx-1" data-toggle="modal" data-target="#deleteListModal<?php print($tasklist->getId()); ?>">Delete</button>
@@ -118,14 +159,19 @@
                                                 <label class="col-3 py-1" for="title">Description:</label>
                                                 <input class="col-9 form-control" type="text" name="description" value="<?php print($task->getDescription()); ?>">
                                             </div>
-                                            
                                             <div class="row pr-3 mb-2">
                                                 <label class="col-3 py-1" for="title">Duration:</label>
                                                 <input class="col-9 form-control" type="text" name="duration" value="<?php print($task->getDuration()); ?>">
                                             </div>
                                             <div class="row pr-3 mb-2">
-                                                <label class="col-3 py-1" for="title">Status:</label>
-                                                <input class="col-9 form-control" type="text" name="status" value="<?php print($task->getStatus()); ?>">
+                                                <label class="col-3 py-1" for="status">Status:</label>
+                                                <select class="form-control col-9" name="status">
+
+                                                    <?php foreach ($params[2] as $statusKey => $status) { ?>
+                                                        <option><?php print($status["name"]); ?></option>
+                                                    <?php } ?>
+
+                                                </select>
                                             </div>
                                             <input class="btn btn-sm btn-success" type="submit" value="Submit">
                                         </form>
@@ -195,15 +241,20 @@
                                             <label class="col-3 py-1" for="title">Description:</label>
                                             <input class="col-9 form-control" type="text" name="description">
                                         </div>
-                                        
                                         <div class="row pr-3 mb-2">
                                             <label class="col-3 py-1" for="title">Duration:</label>
                                             <input class="col-9 form-control" type="text" name="duration">
                                         </div>
                                         <div class="row pr-3 mb-2">
-                                            <label class="col-3 py-1" for="title">Status:</label>
-                                            <input class="col-9 form-control" type="text" name="status">
-                                        </div>
+                                                <label class="col-3 py-1" for="status">Status:</label>
+                                                <select class="form-control col-9" name="status">
+
+                                                    <?php foreach ($params[2] as $statusKey => $status) { ?>
+                                                        <option><?php print($status["name"]); ?></option>
+                                                    <?php } ?>
+
+                                                </select>
+                                            </div>
                                         <input class="btn btn-sm btn-success" type="submit" value="Submit">
                                     </form>
                                 </div>

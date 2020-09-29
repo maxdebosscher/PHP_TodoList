@@ -6,6 +6,7 @@ use Core\Request;
 use Core\Controller;
 use Core\Database;
 use Models\Tasklist;
+use Controllers\TaskController;
 
 class TasklistController extends Controller
 {
@@ -71,6 +72,7 @@ class TasklistController extends Controller
         $id = $params["id"];
 
         Database::delete("tasklists", "id", $id);
+        Database::delete("tasks", "tasklistId", $id);
 
         header("Location: /");
         die();
