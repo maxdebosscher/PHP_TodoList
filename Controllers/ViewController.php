@@ -14,7 +14,15 @@ class ViewController extends Controller
      */
     public function index()
     {
-        $params = TasklistController::index();
+        $sort = "asc";
+
+        if (isset($_GET["sort"])) {
+            if ($_GET["sort"] === "asc") {
+                $sort = "desc";
+            }
+        }
+
+        $params = [TasklistController::index(), $sort];
 
         return $this->render("index", $params);
     }

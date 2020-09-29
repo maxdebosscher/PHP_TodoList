@@ -7,7 +7,7 @@ use PDO;
 class Database
 {
     /**
-     * Opens a database connection
+     * Opens a database connection.
      * 
      * @return object
      */
@@ -23,7 +23,7 @@ class Database
     }
 
     /**
-     * Returns all rows from a table
+     * Returns all rows from a table.
      * 
      * @param string $table
      * 
@@ -41,7 +41,7 @@ class Database
     }
 
     /**
-     * Returns a single row from a table
+     * Returns a single row from a table.
      * 
      * @param string $table
      * @param string $column
@@ -61,7 +61,7 @@ class Database
     }
 
     /**
-     * Inserts a single row into a table
+     * Inserts a single row into a table.
      * 
      * @param string $table
      * @param array $columns
@@ -90,7 +90,7 @@ class Database
     }
 
     /**
-     * Inserts a single row into a table
+     * Inserts a single row into a table.
      * 
      * @param string $table
      * @param array $columns
@@ -113,7 +113,7 @@ class Database
     }
 
     /**
-     * Deletes a single row from a table
+     * Deletes a single row from a table.
      * 
      * @param string $table
      * @param string $column
@@ -125,5 +125,43 @@ class Database
         $stmt = $conn->prepare("DELETE FROM $table WHERE $column=$key");
         $stmt->execute();
         $conn = null;
+    }
+
+    /**
+     * Returns all rows from a table where column is key, then sorts them.
+     * 
+     * @param string $table
+     * @param string $column
+     * @param mixed $key
+     * @param string $sortedBy
+     */
+    public static function findSorted($table, $column, $key, $sortedBy)
+    {
+        $conn = self::connect();
+        $stmt = $conn->prepare("SELECT * FROM $table WHERE $column=$key ORDER BY $sortedBy");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $conn = null;
+
+        return $result;
+    }
+
+    /**
+     * Returns all rows from a table where column is key, then sorts them descending.
+     * 
+     * @param string $table
+     * @param string $column
+     * @param mixed $key
+     * @param string $sortedBy
+     */
+    public static function findSortedDesc($table, $column, $key, $sortedBy)
+    {
+        $conn = self::connect();
+        $stmt = $conn->prepare("SELECT * FROM $table WHERE $column=$key ORDER BY $sortedBy DESC");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $conn = null;
+
+        return $result;
     }
 }

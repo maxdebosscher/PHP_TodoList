@@ -1,17 +1,20 @@
 <div class="row">
 
     <!-- Existing Lists -->
-    <?php foreach ($params as $tasklistKey => $tasklist) { ?>
+    <?php foreach ($params[0] as $tasklistKey => $tasklist) { ?>
         <div class="card col-md-3 col-xl-2 px-0 mx-2">
             <div class="card-header d-flex">
                 <span class="py-1 mr-auto"><?php print($tasklist->getTitle()); ?></span>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-                        Sort
-                    </button>
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="dropdown">Menu</button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Duration</a>
-                        <a class="dropdown-item" href="#">Status</a>
+                    <form class="dropdown-item" action="" method="GET">
+                        <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
+                        <input type="hidden" name="sort" value="<?php print($params[1]); ?>">
+                        <input type="submit" value="Sort Duration">
+                    </form>
+                        
+                        <a class="dropdown-item" href="#">Fliter Status</a>
                     </div>
                 </div>
                 <button class="btn btn-sm btn-primary mx-1" data-toggle="modal" data-target="#editListModal<?php print($tasklist->getId()); ?>">Edit</button>
@@ -83,7 +86,7 @@
                 <ul class="list-group">
 
                     <!-- Existing Tasks -->
-                    <?php foreach ($tasklist->getTasks() as $taskKey => $task) { ?>
+                    <?php foreach ($tasklist->getTasks($tasklist->getId()) as $taskKey => $task) { ?>
                         <li class="list-group-item border-0 p-0">
                             <div class="d-flex">
                                 <span class="mr-auto"><?php print($task->getDescription()); ?></span>
