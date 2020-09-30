@@ -73,7 +73,7 @@
                                 <input type="hidden" name="id" value="<?php print($tasklist->getId()); ?>">
                                 <div class="row pr-3 mb-2">
                                     <label class="col-2 py-1" for="title">Title:</label>
-                                    <input class="col-10 form-control" type="text" name="title" value="<?php print($tasklist->getTitle()); ?>">
+                                    <input class="col-10 form-control" type="text" name="title" value="<?php print($tasklist->getTitle()); ?>" required>
                                 </div>
                                 <input class="btn btn-sm btn-success" type="submit" value="Submit">
                             </form>
@@ -151,11 +151,11 @@
                                             <input type="hidden" name="tasklistId" value="<?php print($task->getTasklistId()); ?>">
                                             <div class="row pr-3 mb-2">
                                                 <label class="col-3 py-1" for="title">Description:</label>
-                                                <input class="col-9 form-control" type="text" name="description" value="<?php print($task->getDescription()); ?>">
+                                                <input class="col-9 form-control" type="text" name="description" value="<?php print($task->getDescription()); ?>" required>
                                             </div>
                                             <div class="row pr-3 mb-2">
                                                 <label class="col-3 py-1" for="title">Duration:</label>
-                                                <input class="col-9 form-control" type="text" name="duration" value="<?php print($task->getDuration()); ?>">
+                                                <input class="col-9 form-control" type="text" name="duration" value="<?php print($task->getDuration()); ?>" required>
                                             </div>
                                             <div class="row pr-3 mb-2">
                                                 <label class="col-3 py-1" for="status">Status:</label>
@@ -233,11 +233,11 @@
                                         <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
                                         <div class="row pr-3 mb-2">
                                             <label class="col-3 py-1" for="title">Description:</label>
-                                            <input class="col-9 form-control" type="text" name="description">
+                                            <input class="col-9 form-control" type="text" name="description" required>
                                         </div>
                                         <div class="row pr-3 mb-2">
                                             <label class="col-3 py-1" for="title">Duration:</label>
-                                            <input class="col-9 form-control" type="text" name="duration">
+                                            <input class="col-9 form-control" type="text" name="duration" required>
                                         </div>
                                         <div class="row pr-3 mb-2">
                                                 <label class="col-3 py-1" for="status">Status:</label>
