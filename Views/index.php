@@ -28,6 +28,7 @@
                                     </form>
 
                                     <form class="row mb-2 px-3" action="" method="GET">
+                                        <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
                                         <label class="col-2 px-0 py-1" for="filter">Filter by:</label>
                                         <select class="form-control col-8" name="filter">
                                             <option>None</option>
@@ -37,7 +38,6 @@
                                             <?php } ?>
 
                                         </select>
-                                        <input type="hidden" name="tasklistId" value="<?php print($tasklist->getId()); ?>">
                                         <input class="btn btn-success col-2" type="submit" value="Submit">
                                     </form>
                                 </div>
@@ -49,12 +49,6 @@
 
                             </div>
                         </div>
-                    </div>
-
-                    <div class="dropdown-menu">
-                        
-                            
-                        
                     </div>
 
                 </div>

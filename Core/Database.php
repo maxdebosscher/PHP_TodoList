@@ -13,7 +13,7 @@ class Database
      */
     public static function connect()
     {
-        $dsn = "mysql:host=localhost;dbname=opdr-php-todolist;";
+        $dsn = "mysql:host=localhost;dbname=php-todolist;";
         $opt = array(
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
@@ -51,9 +51,9 @@ class Database
      */
     public static function find($table, $columns, $keys)
     {
+        $query = "SELECT * FROM $table WHERE ".$columns[0]."='".$keys[0]."'";
         foreach ($columns as $columnKey => $column) {
-            $query = "SELECT * FROM $table WHERE ".$columns[$columnKey]."='".$keys[$columnKey]."'";
-            if ($columnKey > 0) {
+            if ($columnKey != 0) {
                 $query = $query." AND ".$column."='" .$keys[$columnKey]. "'";
             }
         }
@@ -141,30 +141,16 @@ class Database
      * @param string $column
      * @param mixed $key
      * @param string $sortedBy
+     * @param bool $desc
      */
-    public static function findSorted($table, $column, $key, $sortedBy)
+    public static function findSorted($table, $column, $key, $sortedBy, $desc = false)
     {
+        $query = "SELECT * FROM $table WHERE $column=$key ORDER BY $sortedBy";
+        if ($desc === true) {
+            $query = $query." DESC";
+        }
         $conn = self::connect();
-        $stmt = $conn->prepare("SELECT * FROM $table WHERE $column=$key ORDER BY $sortedBy");
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        $conn = null;
-
-        return $result;
-    }
-
-    /**
-     * Returns all rows from a table where column is key, then sorts them descending.
-     * 
-     * @param string $table
-     * @param string $column
-     * @param mixed $key
-     * @param string $sortedBy
-     */
-    public static function findSortedDesc($table, $column, $key, $sortedBy)
-    {
-        $conn = self::connect();
-        $stmt = $conn->prepare("SELECT * FROM $table WHERE $column=$key ORDER BY $sortedBy DESC");
+        $stmt = $conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll();
         $conn = null;

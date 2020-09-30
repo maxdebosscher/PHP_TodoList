@@ -35,6 +35,8 @@ class Tasklist
 
     /**
      * Decides how to return the tasks from the list.
+     * 
+     * @param int $tasklistId
      */
     public function getTasks($tasklistId)
     {
@@ -48,7 +50,7 @@ class Tasklist
                     if ($_GET["sort"] === "asc") {
                         $tasksArr = Database::findSorted("tasks", "tasklistId", $this->getId(), "duration");
                     } else if ($_GET["sort"] === "desc") {
-                        $tasksArr = Database::findSortedDesc("tasks", "tasklistId", $this->getId(), "duration");
+                        $tasksArr = Database::findSorted("tasks", "tasklistId", $this->getId(), "duration", true);
                     }
                 }
 
